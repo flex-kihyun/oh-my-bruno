@@ -75,31 +75,6 @@ Daily Check-in | YYYY-MM-DD (요일)
 - **기타 메모**: 
 ```
 
-## 저녁 회고 추가 구조 (evening-review가 append)
+## 참고
 
-```markdown
----
-
-## 🌙 Buona sera, 형!
-
-## 📋 피드백 반영
-> 형이 오늘 남긴 피드백 기반으로 정리했어:
-- {사용자 피드백 요약 및 반영 내용}
-- {Briefing Preferences 업데이트 여부}
-
-## ✅ 오늘 완료한 것
-- {Linear에서 Done/Closed로 변경된 이슈들}
-- {완료된 기타 작업}
-
-## 🔄 진행 중 (내일 계속)
-- {여전히 In Progress인 이슈들}
-
-## 🚧 블로커
-- {해결되지 않은 블로커}
-
-## 📊 오늘의 숫자
-- Linear: N개 완료, N개 진행 중, N개 신규
-- 미팅: N개 참석 (총 N시간)
-- 커밋: N개
-- PR: N개 열림, N개 머지
-```
+저녁 회고는 별도 페이지로 생성된다. `prompts/evening-review.md` 참조.

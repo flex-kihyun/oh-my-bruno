@@ -1,7 +1,7 @@
 # Evening Review Prompt
 
 이 파일은 `evening-review` 스케줄 태스크의 실행 지시사항이다.
-매 평일 저녁 자동 실행되어 오늘의 회고를 기존 Daily 페이지에 append한다.
+매 평일 저녁 자동 실행되어 오늘의 회고를 **별도 Notion 페이지**로 생성한다.
 
 ---
 
@@ -138,15 +138,21 @@ Claude 세션의 흔적은 여러 곳에 남아있으므로 교차 확인:
 - CI-* 이슈 대응에 평균 1.5시간 소요
 ```
 
-### 6. Notion Daily 페이지에 append
+### 6. 별도 Notion 저녁 회고 페이지 생성
 
-`notion-update-page`의 `update_content` 커맨드로 기존 페이지 끝에 저녁 회고 섹션 추가.
+`notion-create-pages`로 **새 페이지**를 생성한다 (아침 브리핑과 별도).
 
-**콘텐츠 구조** (`templates/daily-page.md`의 "저녁 회고 추가 구조" 참조):
+**대상 DB**: config의 `DAILY_DB` 값 사용
+
+**페이지 속성**:
+- `이름`: `"Evening Review | {YYYY-MM-DD} ({요일})"`
+- `카테고리`: config의 `DAILY_CATEGORY` 값 (기본: `["Daily"]`)
+
+**아이콘**: 🌙
+
+**콘텐츠 구조**:
 
 ```markdown
----
-
 ## 🌙 Buona sera, 형!
 
 ## 📋 피드백 반영
@@ -188,6 +194,6 @@ Claude 세션의 흔적은 여러 곳에 남아있으므로 교차 확인:
 
 ### 8. 에러 처리
 
-- Daily 페이지를 못 찾으면 새 페이지 생성 (저녁 회고만 포함)
+- 아침 Daily 페이지를 못 찾아도 저녁 회고 페이지는 독립적으로 생성
 - 특정 도구 실패 시 나머지 데이터로 회고 작성
-- append 실패 시 재시도 1회, 그래도 실패하면 새 페이지로 생성
+- 페이지 생성 실패 시 재시도 1회
