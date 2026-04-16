@@ -7,12 +7,16 @@
 
 ## 실행 순서
 
+### 0. 설정 로드
+
+먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID 등 설정값을 확인한다.
+
 ### 1. 오늘의 Daily 페이지 찾기
 
 Notion에서 오늘의 Daily 페이지를 찾는다:
 - `notion-search`로 오늘 날짜 + "Daily Check-in" 검색
-- DB: `collection://3430592a-4a92-8046-9d70-000b43153574` (flex kihyun)
-- 카테고리 "Daily"로 필터
+- DB: config의 `DAILY_DB` 값 사용
+- 카테고리: config의 `DAILY_CATEGORY`로 필터
 - 찾은 페이지를 `notion-fetch`로 전체 콘텐츠 로드
 
 **페이지를 못 찾은 경우**: 오늘 아침 브리핑이 생성되지 않았을 수 있음. 이 경우 새 페이지를 생성하되, 아침 브리핑 없이 저녁 회고만 포함.
@@ -32,7 +36,7 @@ Daily 페이지의 "💬 오늘의 피드백" 섹션을 파싱:
 피드백이 있는 경우:
 1. **저녁 회고에 "📋 피드백 반영" 섹션 포함**: 사용자 피드백 요약 + 어떻게 반영할지 설명
 2. **Bruno Config 업데이트**: 
-   - "불필요했던 것"이 있으면 → Briefing Preferences 페이지(`3440592a-4a92-81ee-ab3e-f4ecef59654a`)의 "피드백 히스토리" 섹션에 추가
+   - "불필요했던 것"이 있으면 → Briefing Preferences 페이지(config의 `BRIEFING_PREFS_PAGE`)의 "피드백 히스토리" 섹션에 추가
    - "추가로 알고 싶은 것"이 있으면 → Briefing Preferences에 다음 브리핑 추가 수집 항목으로 기록
    - `notion-update-page`로 Briefing Preferences 페이지 업데이트
 

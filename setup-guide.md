@@ -1,6 +1,4 @@
-# Oh My Bruno - Scheduled Tasks Setup Guide
-
-스케줄 태스크 등록용 복붙 가이드. `create_scheduled_task` 또는 Claude Code `/schedule` 명령으로 등록.
+# Oh My Bruno - Setup Guide
 
 ## Notion Resources
 
@@ -14,48 +12,45 @@
 
 ---
 
-## Task 1: Morning Briefing
+## Remote Triggers (클라우드 실행)
 
-```
-taskId: morning-briefing
-description: 평일 아침 데일리 브리핑 생성 (Calendar + Linear + Slack + Git → Notion)
-cronExpression: 57 7 * * 1-5
-prompt: |
-  /Users/kihyun/Workspace/mini/oh-my-bruno/prompts/morning-briefing.md 파일을 읽고 그 안의 지시사항을 따라 실행해.
-  
-  이 파일은 Oh My Bruno 개인 비서 시스템의 아침 브리핑 프롬프트야.
-  Bruno Config DB에서 사용자 프로필과 설정을 먼저 가져온 뒤, 
-  모든 접근 가능한 MCP 도구를 활용해서 데이터를 수집하고 Notion Daily 페이지를 생성해.
-```
+관리: https://claude.ai/code/scheduled
+
+### Trigger 1: Morning Briefing
+| 항목 | 값 |
+|------|-----|
+| ID | `trig_011mmitzQZMJUXSsj1YZ7rGB` |
+| 스케줄 | 평일 08시 KST (`57 22 * * 0-4` UTC) |
+| 모델 | claude-sonnet-4-6 |
+| 레포 | https://github.com/flex-kihyun/oh-my-bruno |
+| 관리 | https://claude.ai/code/scheduled/trig_011mmitzQZMJUXSsj1YZ7rGB |
+
+### Trigger 2: Evening Review
+| 항목 | 값 |
+|------|-----|
+| ID | `trig_016xz2YYB3cvyJzTUrgusDz4` |
+| 스케줄 | 평일 19시 KST (`3 10 * * 1-5` UTC) |
+| 모델 | claude-sonnet-4-6 |
+| 레포 | https://github.com/flex-kihyun/oh-my-bruno |
+| 관리 | https://claude.ai/code/scheduled/trig_016xz2YYB3cvyJzTUrgusDz4 |
+
+### Trigger 3: Weekly Summary
+| 항목 | 값 |
+|------|-----|
+| ID | `trig_015cwwCEFyy8LdJSG5aPzeod` |
+| 스케줄 | 금요일 18시 KST (`7 9 * * 5` UTC) |
+| 모델 | claude-sonnet-4-6 |
+| 레포 | https://github.com/flex-kihyun/oh-my-bruno |
+| 관리 | https://claude.ai/code/scheduled/trig_015cwwCEFyy8LdJSG5aPzeod |
 
 ---
 
-## Task 2: Evening Review
+## MCP 커넥터 설정
 
-```
-taskId: evening-review
-description: 평일 저녁 데일리 회고 + 사용자 피드백 반영 (→ Notion Daily 페이지에 append)
-cronExpression: 3 19 * * 1-5
-prompt: |
-  /Users/kihyun/Workspace/mini/oh-my-bruno/prompts/evening-review.md 파일을 읽고 그 안의 지시사항을 따라 실행해.
-  
-  이 파일은 Oh My Bruno 개인 비서 시스템의 저녁 회고 프롬프트야.
-  오늘 생성된 Daily 페이지를 찾아서, 사용자가 남긴 피드백을 읽고 반영한 뒤,
-  저녁 회고 섹션을 append해.
-```
+리모트 트리거가 Notion, Calendar, Slack, Linear에 접근하려면 https://claude.ai/settings/connectors 에서 커넥터를 연결한 뒤, 각 트리거 설정 페이지에서 해당 커넥터를 연결해야 한다.
 
----
-
-## Task 3: Weekly Summary
-
-```
-taskId: weekly-summary
-description: 금요일 주간 서머리 생성 (이번 주 데일리 종합 → Notion 주간 페이지)
-cronExpression: 7 18 * * 5
-prompt: |
-  /Users/kihyun/Workspace/mini/oh-my-bruno/prompts/weekly-summary.md 파일을 읽고 그 안의 지시사항을 따라 실행해.
-  
-  이 파일은 Oh My Bruno 개인 비서 시스템의 주간 서머리 프롬프트야.
-  이번 주 Daily 페이지들을 종합하고, 모든 접근 가능한 데이터 소스에서 주간 통계를 수집해서
-  Notion 주간 서머리 페이지를 생성해.
-```
+필요한 커넥터:
+- **Notion** — 페이지 생성/업데이트, DB 검색
+- **Google Calendar** — 일정 조회
+- **Slack** — 멘션/메시지 검색
+- **Linear** — 이슈/프로젝트 조회

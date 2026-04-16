@@ -7,11 +7,16 @@
 
 ## 실행 순서
 
+### 0. 설정 로드
+
+먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID 등 설정값을 확인한다.
+이후 모든 단계에서 config의 값을 사용한다.
+
 ### 1. 사용자 프로필 로드
 
-Bruno Config DB(`collection://3b28ee66-3d5a-4d64-83fa-6c5cf9206752`)에서:
-- **User Profile** 페이지(`3440592a-4a92-8176-90d2-f268e89e0f8b`) fetch → 역할, 팀, 반복 일정 파악
-- **Briefing Preferences** 페이지(`3440592a-4a92-81ee-ab3e-f4ecef59654a`) fetch → 포함 섹션, 상세도, 피드백 히스토리 확인
+`config.md`의 CONFIG_DB에서:
+- **User Profile** 페이지(config의 `USER_PROFILE_PAGE`) fetch → 역할, 팀, 반복 일정 파악
+- **Briefing Preferences** 페이지(config의 `BRIEFING_PREFS_PAGE`) fetch → 포함 섹션, 상세도, 피드백 히스토리 확인
 
 ### 2. 데이터 수집
 
@@ -53,14 +58,14 @@ Bruno Config DB(`collection://3b28ee66-3d5a-4d64-83fa-6c5cf9206752`)에서:
 
 ### 4. Notion Daily 페이지 생성
 
-**대상 DB**: `collection://3430592a-4a92-8046-9d70-000b43153574` (flex kihyun)
+**대상 DB**: `config.md`의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
 - `이름`: `"Daily Check-in | {YYYY-MM-DD} ({요일})"`
-- `카테고리`: `["Daily"]`
+- `카테고리`: config의 `DAILY_CATEGORY` 값 (기본: `["Daily"]`)
 
 **페이지 콘텐츠**: 
-`/Users/kihyun/Workspace/mini/oh-my-bruno/templates/daily-page.md`의 "콘텐츠 구조" 섹션을 참조하여 작성.
+`templates/daily-page.md`의 "콘텐츠 구조" 섹션을 참조하여 작성.
 
 아이콘: ☀️
 

@@ -7,17 +7,21 @@
 
 ## 실행 순서
 
+### 0. 설정 로드
+
+먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID 등 설정값을 확인한다.
+
 ### 1. 사용자 프로필 로드
 
-Bruno Config DB(`collection://3b28ee66-3d5a-4d64-83fa-6c5cf9206752`)에서:
-- **User Profile** 페이지(`3440592a-4a92-8176-90d2-f268e89e0f8b`) fetch
-- **Briefing Preferences** 페이지(`3440592a-4a92-81ee-ab3e-f4ecef59654a`) fetch
+config의 `CONFIG_DB`에서:
+- **User Profile** 페이지(config의 `USER_PROFILE_PAGE`) fetch
+- **Briefing Preferences** 페이지(config의 `BRIEFING_PREFS_PAGE`) fetch
 
 ### 2. 이번 주 Daily 페이지 수집
 
 Notion에서 이번 주 Daily 페이지들을 모두 찾는다:
 - `notion-search`로 "Daily Check-in" 검색 (최근 7일)
-- DB: `collection://3430592a-4a92-8046-9d70-000b43153574` (flex kihyun)
+- DB: config의 `DAILY_DB` 값 사용
 - 각 페이지를 `notion-fetch`로 전체 콘텐츠 로드
 - 아침 브리핑 + 저녁 회고 + 사용자 피드백 모두 수집
 
@@ -55,11 +59,11 @@ Notion에서 이번 주 Daily 페이지들을 모두 찾는다:
 
 ### 5. Notion 주간 서머리 페이지 생성
 
-**대상 DB**: `collection://3430592a-4a92-8046-9d70-000b43153574` (flex kihyun)
+**대상 DB**: config의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
 - `이름`: `"주간 서머리 | {YYYY-MM-DD} ~ {MM-DD}"`
-- `카테고리`: `["목표/회고"]`
+- `카테고리`: config의 `WEEKLY_CATEGORY` 값 (기본: `["목표/회고"]`)
 
 **페이지 콘텐츠**: `templates/weekly-page.md`의 "콘텐츠 구조" 섹션 참조.
 
