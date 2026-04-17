@@ -9,8 +9,13 @@
 
 ### 0. 설정 로드
 
-먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID 등 설정값을 확인한다.
+먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID, **TIMEZONE** 등 설정값을 확인한다.
 이후 모든 단계에서 config의 값을 사용한다.
+
+**타임존 처리**:
+- 리모트 트리거는 UTC로 실행되지만, "오늘"의 기준은 `TIMEZONE`(Asia/Seoul, UTC+09:00)이다.
+- 현재 시각을 `TIMEZONE`으로 변환한 뒤 날짜(`YYYY-MM-DD`)와 요일을 계산한다.
+- 외부 API 조회 시 시간 범위는 반드시 `TIMEZONE` offset을 포함한 ISO 8601로 변환 (예: `2026-04-17T00:00:00+09:00`).
 
 ### 1. 사용자 프로필 로드
 
@@ -23,7 +28,10 @@
 접근 가능한 **모든 MCP 도구**를 활용해서 최대한 풍부하게 수집:
 
 #### Google Calendar
-- `list_events`로 **오늘** 일정 가져오기 (startTime: 오늘 00:00, endTime: 오늘 23:59)
+- `list_events`로 **오늘**(`TIMEZONE` 기준) 일정 가져오기
+  - `startTime`: 오늘 00:00 `TIMEZONE`을 ISO 8601로 (예: `2026-04-17T00:00:00+09:00`)
+  - `endTime`: 오늘 23:59 `TIMEZONE`을 ISO 8601로 (예: `2026-04-17T23:59:59+09:00`)
+  - `timeZone` 파라미터가 있으면 `Asia/Seoul`로 명시
 - 일정 겹침 감지: 시간이 겹치는 이벤트 쌍 찾기
 - 각 이벤트의 참석자, Google Meet 링크, 장소 포함
 
@@ -61,7 +69,7 @@
 **대상 DB**: `config.md`의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
-- `이름`: `"Daily Check-in | {YYYY-MM-DD} ({요일})"`
+- `이름`: `"Daily Check-in | {YYYY-MM-DD} ({요일})"` — `TIMEZONE` 기준 오늘 날짜/요일
 - `카테고리`: config의 `DAILY_CATEGORY` 값 (기본: `["Daily"]`)
 
 **페이지 콘텐츠**: 

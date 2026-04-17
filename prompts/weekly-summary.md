@@ -9,7 +9,13 @@
 
 ### 0. 설정 로드
 
-먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID 등 설정값을 확인한다.
+먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID, **TIMEZONE** 등 설정값을 확인한다.
+
+**타임존 처리**:
+- 리모트 트리거는 UTC로 실행되지만, "이번 주"의 기준은 `TIMEZONE`(Asia/Seoul, UTC+09:00)이다.
+- "이번 주" 범위: `TIMEZONE` 기준 이번 주 월요일 00:00 ~ 일요일 23:59.
+- 날짜 표기(`YYYY-MM-DD`, 요일)는 모두 `TIMEZONE` 기준.
+- 외부 API 조회 시 시간 범위는 `TIMEZONE` offset을 포함한 ISO 8601로 변환 (예: `2026-04-13T00:00:00+09:00`).
 
 ### 1. 사용자 프로필 로드
 
@@ -19,8 +25,8 @@ config의 `CONFIG_DB`에서:
 
 ### 2. 이번 주 Daily 페이지 수집
 
-Notion에서 이번 주 Daily 페이지들을 모두 찾는다:
-- `notion-search`로 "Daily Check-in" 검색 (최근 7일)
+Notion에서 이번 주(`TIMEZONE` 기준 월~일) Daily 페이지들을 모두 찾는다:
+- `notion-search`로 "Daily Check-in" 검색 (이번 주 월요일 ~ 오늘, `TIMEZONE` 기준)
 - DB: config의 `DAILY_DB` 값 사용
 - 각 페이지를 `notion-fetch`로 전체 콘텐츠 로드
 - 아침 브리핑 + 저녁 회고 + 사용자 피드백 모두 수집
@@ -62,7 +68,7 @@ Notion에서 이번 주 Daily 페이지들을 모두 찾는다:
 **대상 DB**: config의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
-- `이름`: `"주간 서머리 | {YYYY-MM-DD} ~ {MM-DD}"`
+- `이름`: `"주간 서머리 | {YYYY-MM-DD} ~ {MM-DD}"` — `TIMEZONE` 기준 이번 주 월요일 ~ 일요일 날짜
 - `카테고리`: config의 `WEEKLY_CATEGORY` 값 (기본: `["목표/회고"]`)
 
 **페이지 콘텐츠**: `templates/weekly-page.md`의 "콘텐츠 구조" 섹션 참조.

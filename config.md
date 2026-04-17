@@ -3,6 +3,18 @@
 이 파일에 사용자별 설정값을 입력한다.
 프롬프트 파일들은 이 config를 참조하여 실행된다.
 
+## Timezone
+
+| 항목 | 값 | 설명 |
+|------|-----|------|
+| TIMEZONE | `Asia/Seoul` | 사용자 기준 타임존 (KST, UTC+09:00) |
+| UTC_OFFSET | `+09:00` | ISO 8601 날짜/시간 포맷에 사용할 offset |
+
+**중요**: 리모트 트리거는 UTC로 실행되지만, "오늘", "어제", "이번 주" 등 모든 시간 기준은 `TIMEZONE`을 따른다.
+- 날짜 표기(`YYYY-MM-DD`, 요일)는 `TIMEZONE` 기준 현재 날짜
+- Calendar/Linear/Slack 조회 시 `startTime`/`endTime`은 `TIMEZONE` 기준 자정을 ISO 8601(`2026-04-17T00:00:00+09:00` 형태)로 변환
+- "이번 주"는 `TIMEZONE` 기준 월요일 00:00 ~ 일요일 23:59
+
 ## Notion
 
 | 항목 | 값 | 설명 |
@@ -25,7 +37,9 @@
 | DAILY_CATEGORY | `Daily` | 데일리 페이지의 카테고리 |
 | WEEKLY_CATEGORY | `목표/회고` | 위클리 페이지의 카테고리 |
 
-## Schedule (KST)
+## Schedule
+
+모든 시간은 `TIMEZONE`(Asia/Seoul) 기준이다.
 
 | 항목 | 값 | 설명 |
 |------|-----|------|

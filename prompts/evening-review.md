@@ -9,12 +9,17 @@
 
 ### 0. 설정 로드
 
-먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID 등 설정값을 확인한다.
+먼저 `config.md` 파일을 읽어서 Notion DB ID, 페이지 ID, **TIMEZONE** 등 설정값을 확인한다.
+
+**타임존 처리**:
+- 리모트 트리거는 UTC로 실행되지만, "오늘"의 기준은 `TIMEZONE`(Asia/Seoul, UTC+09:00)이다.
+- 현재 시각을 `TIMEZONE`으로 변환한 뒤 날짜(`YYYY-MM-DD`)와 요일을 계산한다.
+- Calendar/Linear/Slack/Git 조회 시 시간 범위는 `TIMEZONE` 기준 자정을 ISO 8601(`2026-04-17T00:00:00+09:00` 형태)로 변환.
 
 ### 1. 오늘의 Daily 페이지 찾기
 
-Notion에서 오늘의 Daily 페이지를 찾는다:
-- `notion-search`로 오늘 날짜 + "Daily Check-in" 검색
+Notion에서 오늘(`TIMEZONE` 기준)의 Daily 페이지를 찾는다:
+- `notion-search`로 오늘 날짜(`YYYY-MM-DD`, `TIMEZONE` 기준) + "Daily Check-in" 검색
 - DB: config의 `DAILY_DB` 값 사용
 - 카테고리: config의 `DAILY_CATEGORY`로 필터
 - 찾은 페이지를 `notion-fetch`로 전체 콘텐츠 로드
@@ -145,7 +150,7 @@ Claude 세션의 흔적은 여러 곳에 남아있으므로 교차 확인:
 **대상 DB**: config의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
-- `이름`: `"Evening Review | {YYYY-MM-DD} ({요일})"`
+- `이름`: `"Evening Review | {YYYY-MM-DD} ({요일})"` — `TIMEZONE` 기준 오늘 날짜/요일
 - `카테고리`: config의 `DAILY_CATEGORY` 값 (기본: `["Daily"]`)
 
 **아이콘**: 🌙
