@@ -69,7 +69,7 @@
 **대상 DB**: `config.md`의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
-- `이름`: `"Daily Check-in | {YYYY-MM-DD} ({요일})"` — `TIMEZONE` 기준 오늘 날짜/요일
+- `이름`: `"Daily Check-in"`
 - `카테고리`: config의 `DAILY_CATEGORY` 값 (기본: `["Daily"]`)
 
 **페이지 콘텐츠**: 
