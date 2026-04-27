@@ -5,7 +5,7 @@ Notion Daily 페이지의 콘텐츠 구조. morning-briefing 프롬프트가 이
 ## 페이지 제목 형식
 
 ```
-Daily Check-in | YYYY-MM-DD (요일)
+Daily Check-in
 ```
 
 아이콘: ☀️
