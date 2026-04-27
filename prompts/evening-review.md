@@ -150,7 +150,7 @@ Claude 세션의 흔적은 여러 곳에 남아있으므로 교차 확인:
 **대상 DB**: config의 `DAILY_DB` 값 사용
 
 **페이지 속성**:
-- `이름`: `"Evening Review | {YYYY-MM-DD} ({요일})"` — `TIMEZONE` 기준 오늘 날짜/요일
+- `이름`: `"Evening Review
 - `카테고리`: config의 `DAILY_CATEGORY` 값 (기본: `["Daily"]`)
 
 **아이콘**: 🌙
